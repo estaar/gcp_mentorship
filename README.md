@@ -1,2 +1,2 @@
-# gcp_mentorship
-gcp mentorship files
+# GCP Mentorship Files
+gcp mentorship files used in tutorials
