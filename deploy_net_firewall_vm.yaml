@@ -1,0 +1,32 @@
+imports:
+  - path: network_template.jinja
+  - path: firewall_template.jinja
+  - path: create_vms.jinja
+
+resources:
+  - name: gcp-network
+    type: network_template.jinja
+
+  - name: gcp-network-allow-http-ssh-rdp-icmp
+    type: firewall_template.jinja
+    properties:
+      network: $(ref.gcp-network.selfLink)
+      IPProtocol: TCP
+      Port: [22, 80, 3389]
+
+  - name: gcp-mentor-vm
+    type: create_vms.jinja
+    properties:
+      zone: us-central1-f
+      machineType: f1-micro
+      network: $(ref.gcp-network.selfLink)
+      subnetwork: regions/us-central1/subnetworks/gcp-network
+
+  - name: gcp-mentor2-vm
+    type: create_vms.jinja
+    properties:
+      zone: us-central1-a
+      machineType: f1-micro
+      network: $(ref.gcp-network.selfLink)
+      subnetwork: regions/us-central1/subnetworks/gcp-network
+
